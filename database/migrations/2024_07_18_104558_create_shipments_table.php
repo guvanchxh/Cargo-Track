@@ -9,13 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
+            $table->foreignId('transport_vehicle_id')->constrained()->onDelete('cascade');
+            $table->foreignId('transport_method_id')->constrained()->onDelete('cascade');
+            $table->date('shipment_date'); // ugradylan wagty
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
