@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class TransportVehicle extends Model
 {
-    use HasFactory;
+    protected $fillable = ['type', 'license_plate', 'capacity'];
+
+    public function shipments()
+    {
+        return $this->hasMany(Shipment::class);
+    }
 }
+
