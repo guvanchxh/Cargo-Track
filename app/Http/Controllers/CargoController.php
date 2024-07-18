@@ -7,35 +7,44 @@ use Illuminate\Http\Request;
 
 class CargoController extends Controller
 {
+    /**
+     * Display a listing of the cargos.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         $cargos = Cargo::all();
         return response()->json($cargos);
     }
 
-    public function show($id)
-    {
-        $cargo = Cargo::findOrFail($id);
-        return response()->json($cargo);
-    }
-
+    /**
+     * Store a newly created cargo in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
-        $cargo = Cargo::create($request->all());
-        return response()->json($cargo, 201);
+        $cargo = new Cargo();
+        $cargo->name = $request->input('name');
+        $cargo->description = $request->input('description');
+        $cargo->save();
+
+        return response()->json(['message' => 'Cargo created successfully', 'cargo' => $cargo]);
     }
 
-    public function update(Request $request, $id)
-    {
-        $cargo = Cargo::findOrFail($id);
-        $cargo->update($request->all());
-        return response()->json($cargo, 200);
-    }
-
+    /**
+     * Remove the specified cargo from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
-        Cargo::findOrFail($id)->delete();
-        return response()->json(null, 204);
+        $cargo = Cargo::findOrFail($id);
+        $cargo->delete();
+
+        return response()->json(['message' => 'Cargo deleted successfully']);
     }
 }
-
